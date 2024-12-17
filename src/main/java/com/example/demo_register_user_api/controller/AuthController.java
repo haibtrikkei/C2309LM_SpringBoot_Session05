@@ -1,7 +1,9 @@
 package com.example.demo_register_user_api.controller;
 
+import com.example.demo_register_user_api.model.dto.request.FormLogin;
 import com.example.demo_register_user_api.model.dto.request.UserForm;
 import com.example.demo_register_user_api.model.dto.response.DataResponse;
+import com.example.demo_register_user_api.model.dto.response.JWTResponse;
 import com.example.demo_register_user_api.model.entity.Users;
 import com.example.demo_register_user_api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,12 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<DataResponse<Users>> registerUser(@RequestBody UserForm userForm){
         return new ResponseEntity<>(new DataResponse<>(userService.insertUser(userForm), HttpStatus.CREATED),HttpStatus.CREATED);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<DataResponse<JWTResponse>> login(@RequestBody FormLogin formLogin){
+        return new ResponseEntity<>(new DataResponse<>(userService.login(formLogin),HttpStatus.OK),HttpStatus.OK);
     }
 }
